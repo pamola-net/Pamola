@@ -5,6 +5,7 @@ using System.Numerics;
 
 namespace Pamola.Transient
 {
+    //TODO: Change from variable to state
     public class TransientVariable
     {
         public Variable Variable { get; }
