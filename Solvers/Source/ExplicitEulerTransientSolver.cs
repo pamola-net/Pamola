@@ -8,23 +8,29 @@ namespace Pamola.Solvers
 {
     public class ExplicitEulerTransientSolver : ITransientSolver
     {
-
-        public IEnumerable<IReadOnlyList<Complex>> Solve(
-            IReadOnlyList<Complex> initialState,
-            IReadOnlyList<Func<IReadOnlyList<Complex>, Complex>> derivatives,
+        public IEnumerable<TransientState> Solve(
+            TransientState initialState,
+            IReadOnlyList<Func<Complex>> derivatives,
             Func<IReadOnlyList<Complex>, IReadOnlyList<Complex>, double> timeProvider,
             Action<IReadOnlyList<Complex>> solveSystem
         )
         {
-            //TODO: Finish Transient Solver
-            solveSystem(initialState);
+            var state = initialState;
             while (true)
             {
-                var timeStep = timeProvider(state, stateDerivative)
+               
+                yield return state;    
 
+                solveSystem(state.State);
+
+                var stateDerivative = derivatives.Select(x => x()).ToList();
+                var timeStep = timeProvider(state.State, stateDerivative);
+
+                state = new TransientState() {
+                    Time = state.Time + timeStep,
+                    State = state.State.Zip(stateDerivative, (x,dx) => x + dx*timeStep).ToList()
+                };
             }
-            
-            return null;
         }
     }
 }
