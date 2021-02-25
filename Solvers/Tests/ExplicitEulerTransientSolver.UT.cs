@@ -1,9 +1,11 @@
 using Pamola.Components;
 using Pamola.Solvers.UT.Components;
+using Pamola.Transient;
 using System;
 using System.Linq;
 using System.Numerics;
 using Xunit;
+using System.Collections.Generic;
 
 namespace Pamola.Solvers.UT
 {
@@ -22,14 +24,15 @@ namespace Pamola.Solvers.UT
             var x0 = new TransientState()
             {
                 State = new[] {
-                    new Complex(1)
+                    new Complex(1, 0.0)
                 },
                 Time = 0
             };
-            
-            Complex derivative(Complex x) => 1 / x;
+            var x = 1 / x0.State.First();
 
-            var derivatives = new[]
+            Complex derivative() => 1 / x;
+
+            var derivatives = new List<Func<Complex>>()
             {
                 derivative
             };
@@ -41,14 +44,24 @@ namespace Pamola.Solvers.UT
                 x0,
                 derivatives,
                 timeProvider,
-                x => { }
+                s => 
+                {
+                    x = s.First();
+                }
             ).Take(10);
 
-            var errors = results.Zip(theoreticalResult,
-                (s, t) => ((s.State.First() - t)/t)-1)
+            var errorsReal = results.Zip(theoreticalResult,
+                (s, t) => (s.State.First() - t)/t)
+                .Select(e => Math.Abs(e.Real))
+                .Average(); // RME
+            
+            var errorsImag = results.Zip(theoreticalResult,
+                (s, t) => (s.State.First() - t)/t)
+                .Select(e => Math.Abs(e.Imaginary))
                 .Average();
             
-            
+            Assert.InRange(errorsReal, 0, 0.005);
+            Assert.InRange(errorsImag, 0, 0.00000000001);
 
         }
     }

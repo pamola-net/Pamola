@@ -1,7 +1,7 @@
 using System.Numerics;
 using System.Collections.Generic;
 
-namespace Pamola.Solvers
+namespace Pamola.Transient
 {
     public delegate double TimeProvider(
         IReadOnlyList<Complex> state,

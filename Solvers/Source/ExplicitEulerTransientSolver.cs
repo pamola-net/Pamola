@@ -11,7 +11,7 @@ namespace Pamola.Solvers
         public IEnumerable<TransientState> Solve(
             TransientState initialState,
             IReadOnlyList<Func<Complex>> derivatives,
-            Func<IReadOnlyList<Complex>, IReadOnlyList<Complex>, double> timeProvider,
+            TimeProvider timeProvider,
             Action<IReadOnlyList<Complex>> solveSystem
         )
         {
