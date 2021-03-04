@@ -8,7 +8,7 @@ namespace Pamola
 {
     public static class Solver
     {
-        public static void Solve(this Circuit circuit, ISolver solver)
+        public static Circuit Solve(this Circuit circuit, ISolver solver)
         {
             var component = (IComponent)circuit;
             var equations = component.Equations;
@@ -34,6 +34,8 @@ namespace Pamola
                     })).ToList());
 
             SetState(solvedState);
+
+            return circuit;
 
             //TODO: Insert a separate method to set all variables in a circuit.
             //TODO: Finish solver class/interface.
