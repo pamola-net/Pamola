@@ -1,4 +1,5 @@
 using System;
+using Pamola.Solvers;
 
 namespace Pamola.Transient
 {

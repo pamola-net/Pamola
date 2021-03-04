@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Pamola.NET.UT")]
-
 namespace Pamola
 {
-    internal static class Helper
+    public static class Helper
     {
         /// <summary>
         /// Throws <see cref="ArgumentNullException"/> when <paramref name="source"/> is null.
