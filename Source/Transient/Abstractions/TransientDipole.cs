@@ -7,6 +7,7 @@ using System.Linq;
 
 namespace Pamola.Transient
 {
+    // TODO: Implement inheritance from Dipole and ITransientComponent.
     public abstract class TransientDipole : TransientElement
     {
         public TransientDipole() : base(2)
