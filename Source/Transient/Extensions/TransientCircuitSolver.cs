@@ -31,7 +31,7 @@ namespace Pamola.Transient
         {
             var transientVariables = circuit.GetTransientVariables();
 
-            var initialState = new TrasientState(0, transientVariables.Select(v => v.Variable.Getter()).ToList());
+            var initialState = new TransientState(0, transientVariables.Select(v => v.Variable.Getter()).ToList());
             var derivatives = transientVariables.Select(v => v.Equation).ToList();
 
             return transientSolver.Solve(

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 
-
 namespace Pamola.Transient
 {
 
@@ -12,6 +11,12 @@ namespace Pamola.Transient
         public double Time { get; set; }
 
         public IReadOnlyList<Complex> State { get; set; }
+
+        public TransientState(double time, IReadOnlyList<Complex> state)
+        {
+            Time = time;
+            State = state;
+        }
     }    
 
 }
