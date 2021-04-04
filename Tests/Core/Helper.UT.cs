@@ -22,5 +22,42 @@ namespace Pamola.UT
             object obj = new object();
             Assert.Equal(obj, obj.ThrowOnNull());
         }
+
+        [Fact]
+        public void ToCacheEnumerableHitsOncePerExpansion()
+        {
+            var hitCount = 0;
+            var cachedEnumerable = Enumerable.Range(0,10).Select(
+                i => 
+                {
+                    hitCount++;
+                    return i;
+                }
+            ).ToCachedEnumerable();
+
+            var firstItem = cachedEnumerable.First();
+            var firstItem2 = cachedEnumerable.First();
+
+            Assert.Equal(hitCount, 1);
+            Assert.Equal(firstItem, firstItem2);
+        }
+
+        [Fact]
+        public void ToCachedEnumerableHitsEqualExpansionSize()
+        {
+            var hitCount = 0;
+            var cachedEnumerable = Enumerable.Range(0,10).Select(
+                i => 
+                {
+                    hitCount++;
+                    return i;
+                }
+            ).ToCachedEnumerable();
+
+            var first4Items = cachedEnumerable.Take(4).ToList();
+            var first5Items = cachedEnumerable.Take(5).ToList();
+            Assert.Equal(hitCount, 5);
+            Assert.Equal(first4Items, first5Items.Take(4));
+        }
     }
 }
