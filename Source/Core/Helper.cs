@@ -19,5 +19,30 @@ namespace Pamola
             if (source==null) throw new ArgumentNullException(parameterName);            
             return source;
         }
+
+        public static IEnumerable<T> ToCachedEnumerable<T>(
+            this IEnumerable<T> source
+        )
+        {
+            var cache = new List<T>();
+            return source.GetEnumerator().ToCachedEnumerableHelper(cache);
+        }
+
+        private static IEnumerable<T> ToCachedEnumerableHelper<T>(
+            this IEnumerator<T> source,
+            IList<T> cache
+        )
+        {
+            foreach (var t in cache)
+            {
+                yield return t;
+            }
+
+            while(source.MoveNext())
+            {
+                cache.Add(source.Current);
+                yield return source.Current;
+            }
+        }
     }
 }
