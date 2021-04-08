@@ -47,7 +47,7 @@ namespace Pamola.UnitTests.Transient.Extensions
             var serialiedSimulation = JsonSerializer.Serialize(simulatedResponse);
             var serialiedTeoretic = JsonSerializer.Serialize(teoricResponse);
 
-            throw new Exception(serialiedSimulation);
+            // throw new Exception(serialiedSimulation);
         }
 
         private Circuit GetSimpleTransientCircuit()

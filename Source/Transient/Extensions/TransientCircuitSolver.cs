@@ -10,7 +10,7 @@ namespace Pamola.Transient
         public static Func<double,Circuit> SolveTransient(this Circuit circuit, ITransientSolver transientSolver, TimeProvider timeProvider, ISolver stateSolver)
         {
 
-            var stateIterator = circuit.StateIterator(transientSolver, timeProvider, stateSolver);
+            var stateIterator = circuit.StateIterator(transientSolver, timeProvider, stateSolver).ToCachedEnumerable();
 
             return new Func<double, Circuit>(x => circuit);
 
