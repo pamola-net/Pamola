@@ -7,14 +7,28 @@ namespace Pamola.Transient
 {
     public static class TransientCircuitSolverExtensions
     {
-        public static Func<double,Circuit> SolveTransient(this Circuit circuit, ITransientSolver transientSolver, TimeProvider timeProvider, ISolver stateSolver)
+        public static Func<double,Circuit> SolveTransient(
+            this Circuit circuit, 
+            ITransientSolver transientSolver, 
+            TimeProvider timeProvider, 
+            ISolver stateSolver,
+            IInterpolator interpolator)
         {
 
             var stateIterator = circuit.StateIterator(transientSolver, timeProvider, stateSolver).ToCachedEnumerable();
 
-            return new Func<double, Circuit>(x => circuit);
-
-            //TODO: Pegar todas as variáveis transientes;
+            return new Func<double, Circuit>(t =>
+            {
+                var state = interpolator.Interpolate(stateIterator, t);
+                state.State.Zip(
+                    circuit.GetTransientVariables(),
+                    (s, v) => {
+                        v.Variable.Setter(s);
+                        return 0;
+                    }).ToList();
+                circuit.Solve(stateSolver);
+                return circuit;
+            });
         }
 
         public static IEnumerable<TransientVariable> GetTransientVariables(this Circuit circuit) => 
