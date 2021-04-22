@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Linq;
 using Xunit;
+using Pamola.Components;
+using Pamola.Transient;
+using System.Numerics;
 
 namespace Pamola.UT
 {
     /// <summary>
-    /// Refers to tests of <see cref="Pamola.Helper"/>.
+    /// /// Refers to tests of <see cref="Pamola.Helper"/>.
     /// </summary>
     public class HelperUT
     {
@@ -58,6 +61,28 @@ namespace Pamola.UT
             var first5Items = cachedEnumerable.Take(5).ToList();
             Assert.Equal(5, hitCount);
             Assert.Equal(first4Items, first5Items.Take(4));
+        }
+
+        [Fact]
+        public void TestSetTransientVariables()
+        {
+            var R = new IdealResistor(10.0);
+            var C = new IdealCapacitor(0.047);
+            var V = new IdealDCVoltageSource(10.0);
+
+            R.Positive.ConnectTo(V.Positive);
+            C.Positive.ConnectTo(R.Negative);
+            C.Negative.ConnectTo(V.Negative);
+
+            var circuit = R.GetCircuit();   
+
+            var s = new[] {
+                new Complex(10.0, 0)
+            };
+
+            circuit.SetTransientVariables(s);
+
+            Assert.Equal(s.First(), C.Charge);
         }
     }
 }

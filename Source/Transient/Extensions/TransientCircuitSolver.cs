@@ -20,13 +20,11 @@ namespace Pamola.Transient
             return new Func<double, Circuit>(t =>
             {
                 var state = interpolator.Interpolate(stateIterator, t);
-                state.State.Zip(
-                    circuit.GetTransientVariables(),
-                    (s, v) => {
-                        v.Variable.Setter(s);
-                        return 0;
-                    }).ToList();
+
+                circuit.SetTransientVariables(state.State);
+
                 circuit.Solve(stateSolver);
+                
                 return circuit;
             });
         }
