@@ -9,7 +9,7 @@ using System.Text.Json;
 namespace Pamola.UnitTests.Transient.Extensions
 {
     // TODO: Rename UT classes and namespaces.
-    public class TestTransientCircuitoSolverExtensions
+    public class TestTransientCircuitSolverExtensions
     {
         [Fact]
         public void TestGetTransientVariables()
@@ -48,6 +48,25 @@ namespace Pamola.UnitTests.Transient.Extensions
             var serialiedTeoretic = JsonSerializer.Serialize(teoricResponse);
 
             // throw new Exception(serialiedSimulation);
+        }
+
+        [Fact]
+        public void TestSolveTransient()
+        {
+            var circuit = GetSimpleTransientCircuit();
+
+            var transientResponse = circuit.SolveTransient(new ExplicitEulerTransientSolver(),
+                TimeProviderFactories.ConstantTimeProvider(0.0047),
+                new AccordBaseSolver(circuit.Components.SelectMany(c => c.Variables.Select(v => v.Getter())).ToList()),
+                new LinearInterpolator());
+
+            var tau = 0.47;
+
+            Assert.InRange(transientResponse(1*tau).GetTransientVariables().First().Variable.Getter().Real, 6.3, 6.4);
+            Assert.InRange(transientResponse(2*tau).GetTransientVariables().First().Variable.Getter().Real, 8.6, 8.7);
+            Assert.InRange(transientResponse(3*tau).GetTransientVariables().First().Variable.Getter().Real, 9.5, 9.6);
+            Assert.InRange(transientResponse(4*tau).GetTransientVariables().First().Variable.Getter().Real, 9.8, 9.9);
+            Assert.InRange(transientResponse(5*tau).GetTransientVariables().First().Variable.Getter().Real, 9.9, 10.0);
         }
 
         private Circuit GetSimpleTransientCircuit()

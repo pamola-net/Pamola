@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Runtime.CompilerServices;
+using System.Numerics;
+using System.Linq;
+using Pamola.Transient;
 
 namespace Pamola
 {
@@ -44,5 +45,14 @@ namespace Pamola
                 yield return source.Current;
             }
         }
+
+        public static void SetTransientVariables(
+            this Circuit circuit, 
+            IEnumerable<Complex> stateVariables) => 
+                stateVariables.Zip(
+                    circuit.GetTransientVariables(),
+                    (s, v) => (State: s, TransientVariable: v)).ToList()
+                    .ForEach(sv => sv.TransientVariable.Variable.Setter(sv.State));
+        
     }
 }
