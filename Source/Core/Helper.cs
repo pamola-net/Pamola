@@ -21,6 +21,12 @@ namespace Pamola
             return source;
         }
 
+        /// <summary>
+        /// Caches an Enumerable, ensuring that each item on the <paramref name="source"/> is called only once. 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static IEnumerable<T> ToCachedEnumerable<T>(
             this IEnumerable<T> source
         )
