@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Collections.Generic;
 using Pamola.Components;
+using Pamola.Solvers;
 
 namespace Pamola.Transient.UT.Components
 {
@@ -73,13 +74,39 @@ namespace Pamola.Transient.UT.Components
             Assert.Equal(inductorEquationValue, equation());
         }
 
+        [Fact]
+        public void TestTransientBehavior()
+        {
+            var circuit = BuildRLCircuit().GetCircuit();
+            var tau = 0.005;
+
+            var transientResponse = circuit.SolveTransient(
+                new ExplicitEulerTransientSolver(),
+                TimeProviderFactories.ConstantTimeProvider(tau/100),
+                new AccordBaseSolver(circuit.Components
+                    .SelectMany(c => c.Variables
+                    .Select(v => v.Getter()))
+                    .ToList()),
+                new LinearInterpolator());
+
+            Assert.InRange(transientResponse(1*tau).GetTransientVariables().First().Variable.Getter().Real, 0.63, 0.64);
+            Assert.InRange(transientResponse(2*tau).GetTransientVariables().First().Variable.Getter().Real, 0.86, 0.87);
+            Assert.InRange(transientResponse(3*tau).GetTransientVariables().First().Variable.Getter().Real, 0.95, 0.96);
+            Assert.InRange(transientResponse(4*tau).GetTransientVariables().First().Variable.Getter().Real, 0.98, 0.99);
+            Assert.InRange(transientResponse(5*tau).GetTransientVariables().First().Variable.Getter().Real, 0.99, 1.00);
+
+            Assert.InRange(transientResponse(5*tau).GetTransientVariables().First().Variable.Getter().Imaginary, 0.00, 0.01);
+        }
+
         private IdealInductor BuildRLCircuit(double inductance = 0.05)
         {
+            var V = new IdealDCVoltageSource(10.0);
             var L = new IdealInductor(inductance);
             var R = new IdealResistor(10.0);
 
-            L.Positive.ConnectTo(R.Positive);
-            L.Negative.ConnectTo(R.Negative);
+            V.Positive.ConnectTo(L.Positive);
+            L.Negative.ConnectTo(R.Positive);
+            R.Negative.ConnectTo(V.Negative);
 
             return L;
         }
