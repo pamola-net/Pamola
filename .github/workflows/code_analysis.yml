@@ -5,7 +5,9 @@ on:
     branches:
       - master
       - dev
-      - *
+  push:
+    branches:
+      - "feature/ci-cd"
 
 jobs:
   source_compilation:
