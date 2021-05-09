@@ -36,6 +36,5 @@ namespace Pamola.Components
 
         protected override IReadOnlyCollection<Func<Complex>> DipoleEquations => new List<Func<Complex>>() { OhmsLaw };
         
-        //TODO: Create an Ideal Voltage Source.
     }
 }
