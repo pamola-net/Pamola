@@ -20,6 +20,7 @@ namespace Pamola.UT.Components
 
             Assert.Equal(2, C.Terminals.Count);
 
+            Assert.Equal(2, C.Components.Where(c => c.GetType() == typeof(Node)).ToList().Count);
             Assert.Equal(0.0, J.Positive.Node.Voltage.Real, 4);
             Assert.Equal(0.0, J.Positive.Node.Voltage.Imaginary, 4);
             Assert.Equal(0.0, J.Positive.Current.Real, 4);
@@ -39,6 +40,7 @@ namespace Pamola.UT.Components
             
             C.Solve(new AccordBaseSolver(((IComponent)C).Variables.Select(v => v.Getter()).ToList()));
 
+            Assert.Equal(3, C.Components.Where(c => c.GetType() == typeof(Node)).ToList().Count);
             Assert.Equal(0.0, J.Positive.Node.Voltage.Real, 4);
             Assert.Equal(0.0, J.Positive.Node.Voltage.Imaginary, 4);
             Assert.Equal(0.0, J.Negative.Node.Voltage.Real, 4);
@@ -80,6 +82,8 @@ namespace Pamola.UT.Components
             R.Positive.ConnectTo(V.Positive);
             V.Negative.ConnectTo(G.Terminal);
             G.Terminal.Node.ConnectTo(J.Positive);
+
+            // TODO: Bug Found? on Terminal.ConnectTo(Terminal).
 
             return new List<IComponent>(){J, V, R};
         }
