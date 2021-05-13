@@ -12,7 +12,7 @@ namespace Pamola
         Component
     {
         /// <summary>
-        /// The node voltage, as a <see cref="Complex"/> variable.
+        /// The node voltage, as a <see cref="Complex"/> variable, in Volts.
         /// </summary>
         public Complex Voltage { get; private set; }
 
