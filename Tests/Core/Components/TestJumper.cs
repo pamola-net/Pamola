@@ -21,10 +21,8 @@ namespace Pamola.UT.Components
             Assert.Equal(2, C.Terminals.Count);
 
             Assert.Equal(2, C.Components.Where(c => c.GetType() == typeof(Node)).ToList().Count);
-            Assert.Equal(0.0, J.Positive.Node.Voltage.Real, 4);
-            Assert.Equal(0.0, J.Positive.Node.Voltage.Imaginary, 4);
-            Assert.Equal(0.0, J.Positive.Current.Real, 4);
-            Assert.Equal(0.0, J.Positive.Current.Imaginary, 4);
+            Assert.Equal(0.0, J.Positive.Node.Voltage.Magnitude, 4);
+            Assert.Equal(0.0, J.Positive.Current.Magnitude, 4);
         }
 
         [Fact]
@@ -41,12 +39,10 @@ namespace Pamola.UT.Components
             C.Solve(new AccordBaseSolver(((IComponent)C).Variables.Select(v => v.Getter()).ToList()));
 
             Assert.Equal(3, C.Components.Where(c => c.GetType() == typeof(Node)).ToList().Count);
-            Assert.Equal(0.0, J.Positive.Node.Voltage.Real, 4);
-            Assert.Equal(0.0, J.Positive.Node.Voltage.Imaginary, 4);
-            Assert.Equal(0.0, J.Negative.Node.Voltage.Real, 4);
-            Assert.Equal(0.0, J.Negative.Node.Voltage.Imaginary, 4);
-            Assert.Equal(6.0, J.Negative.Current.Real, 4);
-            Assert.Equal(0.0, J.Negative.Current.Imaginary, 4);
+            Assert.Equal(0.0, J.Positive.Node.Voltage.Magnitude, 4);
+            Assert.Equal(0.0, J.Negative.Node.Voltage.Magnitude, 4);
+            Assert.Equal(6.0, J.Negative.Current.Magnitude, 4);
+            Assert.Equal(12.0, R.Positive.Node.Voltage.Magnitude, 4);
         }
 
         [Fact]
@@ -60,16 +56,21 @@ namespace Pamola.UT.Components
 
             var closedCircuit = new Jumper();
 
-            closedCircuit.Positive.ConnectTo(R.Positive);
-            closedCircuit.Negative.ConnectTo(R.Negative);
+            closedCircuit.Positive.ConnectTo(R.Positive.Node);
+            closedCircuit.Negative.ConnectTo(R.Negative.Node);
 
             var C = J.GetCircuit();            
             C.Solve(new AccordBaseSolver(((IComponent)C).Variables.Select(v => v.Getter()).ToList()));
 
-            Assert.Equal(0.0, (R.Positive.Node.Voltage - R.Negative.Node.Voltage).Real, 4);
-            Assert.Equal(0.0, (R.Positive.Node.Voltage - R.Negative.Node.Voltage).Imaginary, 4);
-            Assert.Equal(0.0, R.Positive.Current.Real, 4);
-            Assert.Equal(0.0, R.Positive.Current.Imaginary, 4);  
+            Assert.Equal(3, C.Components.Where(c => c.GetType() == typeof(Node)).ToList().Count);
+            Assert.NotEqual(12.0, R.Positive.Node.Voltage.Real, 4);
+            Assert.Equal(0.0, R.Positive.Node.Voltage.Imaginary, 4);
+            Assert.NotEqual(0.0, J.Negative.Node.Voltage.Real, 4);
+            Assert.Equal(0.0, J.Negative.Node.Voltage.Imaginary, 4);
+            Assert.NotEqual(6.0, R.Positive.Current.Real, 4);
+            Assert.Equal(0.0, R.Positive.Current.Imaginary, 4);
+            Assert.NotEqual(0.0, closedCircuit.Positive.Current.Real, 4);
+            Assert.Equal(0.0, closedCircuit.Positive.Current.Imaginary, 4);
         }
 
         private List<IComponent> SampleCircuit()
@@ -80,10 +81,8 @@ namespace Pamola.UT.Components
             var J = new Jumper();
 
             R.Positive.ConnectTo(V.Positive);
-            V.Negative.ConnectTo(G.Terminal);
-            G.Terminal.Node.ConnectTo(J.Positive);
 
-            // TODO: Bug Found? on Terminal.ConnectTo(Terminal).
+            new List<Terminal>(){V.Negative, G.Terminal, J.Positive }.ConnectAll();
 
             return new List<IComponent>(){J, V, R};
         }
