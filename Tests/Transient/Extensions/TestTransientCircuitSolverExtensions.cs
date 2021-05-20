@@ -29,14 +29,14 @@ namespace Pamola.UnitTests.Transient.Extensions
         {
             var circuit = GetSimpleTransientCircuit();
 
-            var stateiterator = circuit.StateIterator(
+            var stateIterator = circuit.StateIterator(
                 new ExplicitEulerTransientSolver(), 
                 TimeProviderFactories.ConstantTimeProvider(0.0047), 
                 new AccordBaseSolver(circuit.Components.SelectMany(c => c.Variables.Select(v => v.Getter())).ToList()));
 
             var RC = 0.47;
 
-            var transientResponse = stateiterator.Take(501).ToList();    
+            var transientResponse = stateIterator.Take(501).ToList();    
 
             var teoricResponse = transientResponse.Select(s => 10*(1-Math.Exp(-s.Time/RC)));
 
