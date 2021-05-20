@@ -22,7 +22,7 @@ namespace Pamola.Transient.UT.Components
 
             var solvedCircuit = circuit.SolveTransient(
                 new ExplicitEulerTransientSolver(),
-                TimeProviderFactories.ConstantTimeProvider(tau/100),
+                TimeProviderFactories.ConstantTimeProvider(tau / 100),
                 new AccordBaseSolver(circuit.Components
                     .SelectMany(c => c.Variables
                     .Select(v => v.Getter()))
@@ -30,15 +30,17 @@ namespace Pamola.Transient.UT.Components
                 new LinearInterpolator());
 
             var x = solvedCircuit(60E-3);
-            
-            var transientResponse = Enumerable.Range(0, 6000).Select(i => 1E-10 + i*tau/10).Select(t => 
-                {
+
+            var transientResponse = Enumerable.Range(0, 60000).Select(i => 1E-10 + i * tau / 100).Select(t =>
+                    {
                     var c = solvedCircuit(t);
-                    return (
-                        time:t,
-                        vc:c.Components.OfType<IdealCapacitor>().First().Charge.Real,
-                        ic:c.Components.OfType<IdealCapacitor>().First().Positive.Current.Real);
-                }).ToList();    
+                    return new Dictionary<string, double>()
+                    {
+                        {"Time", t},
+                        {"Voltage", c.Components.OfType<IdealCapacitor>().First().Charge.Real},
+                        {"Current", c.Components.OfType<IdealCapacitor>().First().Positive.Current.Real}
+                    };
+            }).ToList();
 
             var serialiedSimulation = JsonSerializer.Serialize(transientResponse);  
 
