@@ -6,8 +6,19 @@ using System.Linq;
 
 namespace Pamola.Solvers
 {
+    /// <summary>
+    /// Provides numerical extensions methods for solver purposes.
+    /// </summary>
     public static class NumericExtensions
     {
+        /// <summary>
+        /// Calculates the numerical derivative of <paramref name="func"/> 
+        /// f(x) at x=<paramref name="value"/>.
+        /// </summary>
+        /// <param name="func">Function f(x).</param>
+        /// <param name="value">Value of x.</param>
+        /// <param name="tolerance">Numerical derivative tolerance.</param>
+        /// <returns></returns>
         public static Complex Derivative(
             this Func<Complex, Complex> func, 
             Complex value, 
