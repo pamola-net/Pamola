@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Numerics;
 
 namespace Pamola
@@ -27,10 +26,19 @@ namespace Pamola
         /// </summary>
         protected virtual IReadOnlyCollection<Func<Complex>> Equations { get; } = Enumerable.Empty<Func<Complex>>().ToArray();
 
+        /// <summary>
+        /// Proxies <see cref="IComponent.AdjacentComponents"/>.
+        /// </summary>
         IReadOnlyCollection<IComponent> IComponent.AdjacentComponents => AdjacentComponents;
         
+        /// <summary>
+        /// Proxies <see cref="IComponent.Variables"/>.
+        /// </summary>
         IReadOnlyCollection<Variable> IComponent.Variables => Variables;
 
+        /// <summary>
+        /// Proxies <see cref="IComponent.Equations"/>.
+        /// </summary>
         IReadOnlyCollection<Func<Complex>> IComponent.Equations => Equations;
 
     }

@@ -6,6 +6,9 @@ using Pamola.Transient;
 
 namespace Pamola
 {
+    /// <summary>
+    /// Provides generic helper extension methods.
+    /// </summary>
     public static class Helper
     {
         /// <summary>
@@ -21,6 +24,12 @@ namespace Pamola
             return source;
         }
 
+        /// <summary>
+        /// Caches an Enumerable, ensuring that each item on the <paramref name="source"/> is called only once. 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static IEnumerable<T> ToCachedEnumerable<T>(
             this IEnumerable<T> source
         )
@@ -29,6 +38,15 @@ namespace Pamola
             return source.GetEnumerator().ToCachedEnumerableHelper(cache);
         }
 
+        /// <summary>
+        /// Internal logic for <see cref="ToCachedEnumerable"/>. The first time an item is yielded,
+        /// store its value in <paramref name="cache"/>. If an item is called again, return the
+        /// cached value.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="cache"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         private static IEnumerable<T> ToCachedEnumerableHelper<T>(
             this IEnumerator<T> source,
             IList<T> cache
@@ -46,6 +64,12 @@ namespace Pamola
             }
         }
 
+        /// <summary>
+        /// Set the values of all <see cref="TransientVariable"/>'s in a <paramref name="circuit"/>,
+        /// according to <paramref name="stateVariables"/>.
+        /// </summary>
+        /// <param name="circuit">An electric circuit.</param>
+        /// <param name="stateVariables">A state response.</param>
         public static void SetTransientVariables(
             this Circuit circuit, 
             IEnumerable<Complex> stateVariables) => 

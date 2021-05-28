@@ -7,12 +7,12 @@ using System.Linq;
 namespace Pamola
 {
     /// <summary>
-    /// Represents a terminal or pin of any circuit element.
+    /// Represents a terminal or pin of any <see cref="Element"/>.
     /// </summary>
     public sealed class Terminal : Component
     { 
         /// <summary>
-        /// Current passing through this terminal (positive when entering the element, negative otherwise).
+        /// Electric current passing through this terminal (positive when entering the element, negative otherwise), in Amperes.
         /// </summary>
         public Complex Current { get; private set; }
 
@@ -35,8 +35,17 @@ namespace Pamola
             Element = ownerElement;
         }
 
-        protected override IReadOnlyCollection<IComponent> AdjacentComponents { get => (new[] { (IComponent)Element, Node }).Where(component => component != null).ToList(); }
+        /// <summary>
+        /// <see cref="AdjacentComponents"/> returns <see cref="Terminal.Element"/> and <see cref="Terminal.Node"/> (if not null).
+        /// </summary>
+        /// <returns></returns>
+        protected override IReadOnlyCollection<IComponent> AdjacentComponents => 
+            (new[] { (IComponent)Element, Node }).Where(component => component != null).ToList();
 
+        /// <summary>
+        /// A read-only collection of variables associated with <see cref="Terminal"/>.
+        /// </summary>
+        /// <returns><see cref="Current"/> as a <see cref="Variable"/>.</returns>  
         protected override IReadOnlyCollection<Variable> Variables { get => new[] { new Variable(() => Current, value => Current = value) }; }
         
     }

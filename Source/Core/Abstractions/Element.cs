@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Numerics;
 
@@ -42,12 +41,20 @@ namespace Pamola
         public IReadOnlyCollection<Terminal> Terminals{ get => terminals; }
 
         /// <summary>
-        /// Returns all <see cref="Pamola.IComponent"/> directly connected to this.
+        /// <see cref="AdjacentComponents"/> will return its <see cref="Terminals"/>.  
         /// </summary>
         protected override IReadOnlyCollection<IComponent> AdjacentComponents => Terminals;
 
+        /// <summary>
+        /// Overrides <see cref="Component.Variables"/> as an abstract property.
+        /// </summary>
+        /// <value></value>
         protected abstract override IReadOnlyCollection<Variable> Variables { get; }
 
+        /// <summary>
+        /// Overrides <see cref="Component.Equations"/> as an abstract property.
+        /// </summary>
+        /// <value></value>
         protected abstract override IReadOnlyCollection<Func<Complex>> Equations { get; }
 
     }

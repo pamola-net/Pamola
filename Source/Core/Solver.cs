@@ -6,8 +6,17 @@ using System.Linq;
 
 namespace Pamola
 {
+    /// <summary>
+    /// Provides extension methods for solving a <see cref="Circuit"/>.
+    /// </summary>
     public static class Solver
     {
+        /// <summary>
+        /// Solves a <paramref name="circuit"/> using given <paramref name="solver"/>.
+        /// </summary>
+        /// <param name="circuit">An electric circuit.</param>
+        /// <param name="solver">An user-defined <see cref="ISolver"/>.</param>
+        /// <returns></returns>
         public static Circuit Solve(this Circuit circuit, ISolver solver)
         {
             var component = (IComponent)circuit;
@@ -36,12 +45,6 @@ namespace Pamola
             SetState(solvedState);
 
             return circuit;
-
-            //TODO: Insert a separate method to set all variables in a circuit.
-            //TODO: Finish solver class/interface.
-            //TODO: Create a ground component.
-            //TODO: Create unit tests.
-
         }
     }
 }

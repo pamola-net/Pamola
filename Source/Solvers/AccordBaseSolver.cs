@@ -6,8 +6,17 @@ using System.Linq;
 
 namespace Pamola.Solvers
 {
+    /// <summary>
+    /// Implements an <see cref="ISolver"/> using <see href="http://accord-framework.net/">
+    /// Accord.NET Framework</see>.
+    /// </summary>
     public class AccordBaseSolver : ISolver
     {
+        /// <summary>
+        /// Creates an <see cref="AccordBaseSolver"/> while setting values 
+        /// from an <paramref name="initialGuess"/>.
+        /// </summary>
+        /// <param name="initialGuess">An initial guess for all variables.</param>
         public AccordBaseSolver(IReadOnlyList<Complex> initialGuess) 
         {
             InitialGuess = initialGuess;
@@ -15,13 +24,29 @@ namespace Pamola.Solvers
             StopCriteria = (Y, i) => i >= 100 || Y.All(y => y.Magnitude < Tolerance.Magnitude);
         }
 
+        /// <summary>
+        /// Tolerance for the solver.
+        /// </summary>
+        /// <value></value>
         public Complex Tolerance { get; set; }
 
+        /// <summary>
+        /// A function describing the stop criteria for the solver.
+        /// </summary>
+        /// <value></value>
         public Func<IReadOnlyList<Complex>, int, bool> StopCriteria { get; set; }
 
+        /// <summary>
+        /// The initial guess for the solver.
+        /// </summary>
+        /// <value></value>
         public IReadOnlyList<Complex> InitialGuess { get; set; }
 
-
+        /// <summary>
+        /// Solves a given set of <paramref name="equations"/>, until <see cref="StopCriteria"/> is met.
+        /// </summary>
+        /// <param name="equations">Given equations.</param>
+        /// <returns>A list of updates values for all variables.</returns>        
         public IReadOnlyList<Complex> Solve(IReadOnlyList<Func<IReadOnlyList<Complex>, Complex>> equations)
         {
             return IterativeSolve(equations).
@@ -30,6 +55,11 @@ namespace Pamola.Solvers
                 Xk;
         }
 
+        /// <summary>
+        /// Solves and returns a single iteration of the solver.
+        /// </summary>
+        /// <param name="funcs">Given equations.</param>
+        /// <returns>A list of updates values for all variables.</returns>
         private IEnumerable<IReadOnlyList<Complex>> IterativeSolve(IReadOnlyList<Func<IReadOnlyList<Complex>, Complex>> funcs)
         {
             var Xk = InitialGuess.ToArray();
