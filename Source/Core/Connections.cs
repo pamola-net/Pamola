@@ -5,6 +5,10 @@ using System.Linq;
 
 namespace Pamola
 {
+    /// <summary>
+    /// Provides extension methods for <see cref="Terminal"/> and <see cref="Node"/> 
+    /// electrical connections.
+    /// </summary>
     public static class Connections
     {
         /// <summary>
