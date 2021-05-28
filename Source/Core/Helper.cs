@@ -65,10 +65,11 @@ namespace Pamola
         }
 
         /// <summary>
-        /// Set the values of all <see cref="TransientVariable"/>'s in a < 
+        /// Set the values of all <see cref="TransientVariable"/>'s in a <paramref name="circuit"/>,
+        /// according to <paramref name="stateVariables"/>.
         /// </summary>
-        /// <param name="circuit"></param>
-        /// <param name="stateVariables"></param>
+        /// <param name="circuit">An electric circuit.</param>
+        /// <param name="stateVariables">A state response.</param>
         public static void SetTransientVariables(
             this Circuit circuit, 
             IEnumerable<Complex> stateVariables) => 
