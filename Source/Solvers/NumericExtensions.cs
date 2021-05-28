@@ -13,12 +13,12 @@ namespace Pamola.Solvers
     {
         /// <summary>
         /// Calculates the numerical derivative of <paramref name="func"/> 
-        /// f(x) at x=<paramref name="value"/>.
+        /// f(x) at x=<paramref name="value"/>, using a given <paramref name="tolerance"/>.
         /// </summary>
         /// <param name="func">Function f(x).</param>
         /// <param name="value">Value of x.</param>
         /// <param name="tolerance">Numerical derivative tolerance.</param>
-        /// <returns></returns>
+        /// <returns>df(x)/dx</returns>
         public static Complex Derivative(
             this Func<Complex, Complex> func, 
             Complex value, 
@@ -30,9 +30,23 @@ namespace Pamola.Solvers
             return (f1 - f2) / tolerance;
         }
 
+        /// <summary>
+        /// Calculates the numerical derivative of <paramref name="func"/> 
+        /// f(x) at x=<paramref name="value"/>.
+        /// </summary>
+        /// <param name="func">Function f(x).</param>
+        /// <param name="value">Value of x.</param>
+        /// <returns>df(x)/dx</returns>
         public static Complex Derivative(this Func<Complex, Complex> func, Complex value) => 
             func.Derivative(value, new Complex(1e-8, 1e-8));
 
+        /// <summary>
+        /// Calculates the gradient of <paramref name=
+        /// </summary>
+        /// <param name="func"></param>
+        /// <param name="values"></param>
+        /// <param name="tolerance"></param>
+        /// <returns></returns>
         public static IReadOnlyList<Complex> Gradient(
             this Func<IReadOnlyList<Complex>, Complex> func,
             IReadOnlyList<Complex> values,
