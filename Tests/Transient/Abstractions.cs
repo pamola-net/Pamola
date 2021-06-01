@@ -29,12 +29,6 @@ namespace Pamola.Transient.UT
                 -2.0,
                 0.0
             },
-            new object[]
-            {
-                2.0,
-                -2.0,
-                0.0
-            },
             new object[] {
                 2.0,
                 2.0,
@@ -49,7 +43,7 @@ namespace Pamola.Transient.UT
 
         [Theory]
         [MemberData(nameof(ValueData))]
-        public void DipoleCurrentsBehaveProperly(double positiveCurrent, double negativeCurrent, double currentSum)
+        public void MockedDipoleCurrentsBehaveProperly(double positiveCurrent, double negativeCurrent, double currentSum)
         {
             var dipole = new Mocks.MockedTransientDipole();
 

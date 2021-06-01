@@ -12,7 +12,7 @@ namespace Pamola.Solvers
         {
             InitialGuess = initialGuess;
             Tolerance = 1e-8;
-            StopCriteria = (Y, i) => i >= 100 || Y.All(y => y < Tolerance);
+            StopCriteria = (Y, i) => i >= 100 || Y.All(y => y*y < Tolerance);
         }
 
         public double Tolerance { get; set; }

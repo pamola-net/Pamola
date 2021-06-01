@@ -19,8 +19,6 @@ namespace Pamola.UT
         {
             new object[] {0.0},
             new object[] {1.0},
-            new object[] {1.0},
-            new object[] {-1.0},
             new object[] {-1.0},
             new object[] {-1.1}
         };
