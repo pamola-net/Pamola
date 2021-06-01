@@ -10,9 +10,9 @@ namespace Pamola.Solvers
     {
         public IEnumerable<TransientState> Solve(
             TransientState initialState,
-            IReadOnlyList<Func<Complex>> derivatives,
+            IReadOnlyList<Func<double>> derivatives,
             TimeProvider timeProvider,
-            Action<IReadOnlyList<Complex>> solveSystem
+            Action<IReadOnlyList<double>> solveSystem
         )
         {
             var state = initialState;

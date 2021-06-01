@@ -20,6 +20,6 @@ namespace Pamola.UT
 
         protected override IReadOnlyCollection<Variable> Variables => new List<Variable>();
 
-        protected override IReadOnlyCollection<Func<Complex>> Equations => new List<Func<Complex>>();
+        protected override IReadOnlyCollection<Func<double>> Equations => new List<Func<double>>();
     }
 }

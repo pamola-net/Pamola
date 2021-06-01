@@ -75,13 +75,13 @@ namespace Pamola.UT
 
             var componentsVariables = circuit.Components.SelectMany(component => component.Variables);
 
-            var complex = new System.Numerics.Complex(1.0, 1.0);
+            var value = 1.0;
 
-            componentsVariables.ToList().ForEach(variable => variable.Setter(complex));
+            componentsVariables.ToList().ForEach(variable => variable.Setter(value));
 
             Assert.NotEmpty(circuitVariables);
             Assert.NotEmpty(componentsVariables);
-            Assert.All(circuitVariables, variable => Assert.Equal(complex, variable.Getter()));
+            Assert.All(circuitVariables, variable => Assert.Equal(value, variable.Getter()));
 
         }
 

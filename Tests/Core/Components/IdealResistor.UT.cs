@@ -14,29 +14,38 @@ namespace Pamola.UT
         {
             new object[]
             {
-                new Complex(12.0,0.0),
-                new Complex(0.0,0.0),
-                new Complex(0.0, 0.0),
+                12.0,
+                0.0,
+                0.0,
                 3.0,
-                new Complex(12.0,0.0)
+                12.0
             },
 
             new object[]
             {
-                new Complex(-12.0,0.0),
-                new Complex(-24.0,0.0),
-                new Complex(4.0, 0.0),
+                -12.0,
+                -24.0,
+                4.0,
                 3.0,
-                new Complex(0.0,0.0)
+                0.0
             },
 
             new object[]
             {
-                new Complex(0.0,0.0),
-                new Complex(0.0,-3.0),
-                new Complex(-3.0, 0.0),
+                0.0,
+                0.0,
+                -3.0,
                 1.0,
-                new Complex(3.0,3.0)
+                3.0
+            },
+            
+            new object[]
+            {
+                0.0,
+                -3.0,
+                0.0,
+                1.0,
+                3.0
             }
 
         };
@@ -75,19 +84,19 @@ namespace Pamola.UT
 
             R2.Positive.ConnectTo(R3.Negative);
 
-            Assert.Equal(default(Complex), equations1.First()());
-            Assert.Equal(default(Complex), equations2.First()());
-            Assert.Equal(default(Complex), equations3.First()());
+            Assert.Equal(default(double), equations1.First()());
+            Assert.Equal(default(double), equations2.First()());
+            Assert.Equal(default(double), equations3.First()());
         }
 
         [Theory]
         [MemberData(nameof(ValueData))]
         public void FollowsOhmsLawsConnected(
-            Complex voltageNode1, 
-            Complex voltageNode2, 
-            Complex current, 
+            double voltageNode1, 
+            double voltageNode2, 
+            double current, 
             double resistance, 
-            Complex expectedValue)
+            double expectedValue)
         {
 
             var R = new IdealResistor(resistance);

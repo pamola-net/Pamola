@@ -15,7 +15,7 @@ namespace Pamola
         /// </summary>
         /// <param name="getter">A method that returns the variable value.</param>
         /// <param name="setter">A method that updates the variable value.</param>
-        public Variable(Func<Complex> getter, Action<Complex> setter)
+        public Variable(Func<double> getter, Action<double> setter)
         {
             Getter = getter;
             Setter = setter;
@@ -24,11 +24,11 @@ namespace Pamola
         /// <summary>
         /// A method that returns the current value of a <see cref="Pamola.Variable"/>.
         /// </summary>
-        public Func<Complex> Getter { get; private set; }
+        public Func<double> Getter { get; private set; }
 
         /// <summary>
         /// A method that allows updating the value of a <see cref="Pamola.Variable"/>.
         /// </summary>
-        public Action<Complex> Setter { get; private set; }
+        public Action<double> Setter { get; private set; }
     }
 }

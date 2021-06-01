@@ -14,7 +14,7 @@ namespace Pamola
             var equations = component.Equations;
             var variables = component.Variables;
 
-            void SetState(IReadOnlyList<Complex> values)
+            void SetState(IReadOnlyList<double> values)
             {
                 variables.Zip(
                     values,
@@ -26,7 +26,7 @@ namespace Pamola
             }
 
             var solvedState = solver.Solve(
-                equations.Select(equation => new Func<IReadOnlyList<Complex>, Complex>(
+                equations.Select(equation => new Func<IReadOnlyList<double>, double>(
                     values =>
                     {
                         SetState(values);

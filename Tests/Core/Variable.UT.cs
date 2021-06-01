@@ -17,12 +17,12 @@ namespace Pamola.UT
         /// </summary>
         public static IEnumerable<object[]> ValueData { get; } = new List<object[]>()
         {
-            new object[] {new Complex(0.0,0.0)},
-            new object[] {new Complex(1.0,1.0)},
-            new object[] {new Complex(1.0,-1.0)},
-            new object[] {new Complex(-1.0,1.0)},
-            new object[] {new Complex(-1.0,-1.0)},
-            new object[] {new Complex(-1.1,-1.1)}
+            new object[] {0.0},
+            new object[] {1.0},
+            new object[] {1.0},
+            new object[] {-1.0},
+            new object[] {-1.0},
+            new object[] {-1.1}
         };
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Pamola.UT
         /// <param name="returnValue">Return value for getter method.</param>
         [Theory]
         [MemberData(nameof(ValueData))]
-        public void GetterReturnsValue(Complex returnValue)
+        public void GetterReturnsValue(double returnValue)
         {
             var myVariable = new Variable(
                 () => returnValue,
@@ -45,9 +45,9 @@ namespace Pamola.UT
         /// <param name="setValue">Set value for setter method.</param>
         [Theory]
         [MemberData(nameof(ValueData))]
-        public void SetterSetsValue(Complex setValue)
+        public void SetterSetsValue(double setValue)
         {
-            var settedValue = new Complex(0.0, 0.0);
+            var settedValue = 0.0;
             var myVariable = new Variable(
                 () => settedValue, 
                 value => settedValue = value);

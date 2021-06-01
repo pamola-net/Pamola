@@ -14,7 +14,7 @@ namespace Pamola
         /// <summary>
         /// Current passing through this terminal (positive when entering the element, negative otherwise).
         /// </summary>
-        public Complex Current { get; private set; }
+        public double Current { get; private set; }
 
         /// <summary>
         /// Terminal owner <see cref="Pamola.Element"/>.

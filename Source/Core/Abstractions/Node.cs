@@ -15,7 +15,7 @@ namespace Pamola
         /// <summary>
         /// Current operating voltage.
         /// </summary>
-        public Complex Voltage { get; private set; }
+        public double Voltage { get; private set; }
 
         internal List<Terminal> terminals = new List<Terminal>();
 
@@ -30,9 +30,9 @@ namespace Pamola
 
         protected override IReadOnlyCollection<Variable> Variables { get => new[] { new Variable(() => Voltage, value => Voltage = value) }; }
 
-        protected override IReadOnlyCollection<Func<Complex>> Equations => new List<Func<Complex>>() { CurrentSum };
+        protected override IReadOnlyCollection<Func<double>> Equations => new List<Func<double>>() { CurrentSum };
 
-        internal Complex CurrentSum()
+        internal double CurrentSum()
         {
             return Terminals.Select(t => t.Current).Aggregate((l, r) => l + r);
         }

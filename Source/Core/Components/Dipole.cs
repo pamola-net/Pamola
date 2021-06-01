@@ -19,14 +19,14 @@ namespace Pamola.Components
 
         public Terminal Negative { get => Terminals.Last(); }
 
-        private Complex CurrentBehaviour() => Positive.Current + Negative.Current;
+        private double CurrentBehavior() => Positive.Current + Negative.Current;
 
-        protected override IReadOnlyCollection<Func<Complex>> Equations
+        protected override IReadOnlyCollection<Func<double>> Equations
         {
-            get => DipoleEquations.Concat(new List<Func<Complex>>(){ CurrentBehaviour }).ToList();
+            get => DipoleEquations.Concat(new List<Func<double>>(){ CurrentBehavior }).ToList();
         }
 
-        protected abstract IReadOnlyCollection<Func<Complex>> DipoleEquations { get; }
+        protected abstract IReadOnlyCollection<Func<double>> DipoleEquations { get; }
 
     }
 }

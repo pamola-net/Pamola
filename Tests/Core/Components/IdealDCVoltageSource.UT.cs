@@ -14,26 +14,33 @@ namespace Pamola.UT.Components
         {
             new object[]
             {
-                new Complex(0.0,0.0),
-                new Complex(0.0,0.0),
                 0.0,
-                new Complex(0.0,0.0)
+                0.0,
+                0.0,
+                0.0
             },
 
             new object[]
             {
-                new Complex(1.0,0.0),
-                new Complex(0.0,0.0),
                 1.0,
-                new Complex(0.0,0.0)
+                0.0,
+                1.0,
+                0.0
             },
 
             new object[]
             {
-                new Complex(-1.0,0.0),
-                new Complex(0.0,1.0),
+                0.0,
+                1.0,
                 -1.0,
-                new Complex(0.0,-1.0)
+                0.0
+            },
+            new object[]
+            {
+                -1.0,
+                0.0,
+                -1.0,
+                0.0
             }
 
         };
@@ -62,18 +69,18 @@ namespace Pamola.UT.Components
 
             V2.Positive.ConnectTo(V3.Negative);
 
-            Assert.Equal(default(Complex), equations1.First()());
-            Assert.Equal(default(Complex), equations2.First()());
-            Assert.Equal(default(Complex), equations3.First()());
+            Assert.Equal(default(double), equations1.First()());
+            Assert.Equal(default(double), equations2.First()());
+            Assert.Equal(default(double), equations3.First()());
         }
 
         [Theory]
         [MemberData(nameof(ValueData))]
         public void FollowsVoltageDropConnected(
-            Complex voltageNode1,
-            Complex voltageNode2,
+            double voltageNode1,
+            double voltageNode2,
             double voltage,
-            Complex expectedValue)
+            double expectedValue)
         {
             var V = new IdealDCVoltageSource(voltage);
             var dipole = new MockedDipole();

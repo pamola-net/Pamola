@@ -13,42 +13,43 @@ namespace Pamola.Transient.UT
         {
             ITransientComponent element = new Mocks.MockedTransientElement(1)
             {
-                MockedProperty = new Complex(2.0, -2.0)
+                MockedProperty = 2.0
             };
 
             var transientVariable = element.TransientVariables.First();
 
-            Assert.Equal(new Complex(2.0, -2.0), transientVariable.Variable.Getter());
+            Assert.Equal(2.0, transientVariable.Variable.Getter());
         }
 
         public static IEnumerable<object[]> ValueData { get; } = new List<object[]>()
         {
             new object[]
             {
-                new Complex(2.0,2.0),
-                new Complex(-2.0,2.0),
-                new Complex(0.0,4.0)
+                2.0,
+                -2.0,
+                0.0
             },
             new object[]
             {
-                new Complex(2.0,2.0),
-                new Complex(-2.0,-2.0),
-                new Complex(0.0,0.0)
+                2.0,
+                -2.0,
+                0.0
             },
             new object[] {
-                new Complex(2.0,2.0),
-                new Complex(2.0,2.0),
-                new Complex(4.0,4.0)},
+                2.0,
+                2.0,
+                4.0
+            },
             new object[] {
-                new Complex(-2.0,-2.0),
-                new Complex(-2.0,-2.0),
-                new Complex(-4.0,-4.0)
+                -2.0,
+                -2.0,
+                -4.0
             }
         };
 
         [Theory]
         [MemberData(nameof(ValueData))]
-        public void DipoleCurrentsBehaveProperly(Complex positiveCurrent, Complex negativeCurrent, Complex currentSum)
+        public void DipoleCurrentsBehaveProperly(double positiveCurrent, double negativeCurrent, double currentSum)
         {
             var dipole = new Mocks.MockedTransientDipole();
 

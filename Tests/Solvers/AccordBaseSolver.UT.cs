@@ -25,25 +25,16 @@ namespace Pamola.Solvers.UT
 
             circuit.Solve(new AccordBaseSolver(((IComponent)circuit).Variables.Select(v => v.Getter()).ToList()));
 
-            Assert.Equal(12.0, R.Positive.Node.Voltage.Real, 4);
-            Assert.Equal(0.0, R.Negative.Node.Voltage.Real, 4);
+            Assert.Equal(12.0, R.Positive.Node.Voltage, 4);
+            Assert.Equal(0.0, R.Negative.Node.Voltage, 4);
 
-            Assert.Equal(0.0, R.Positive.Node.Voltage.Imaginary, 4);
-            Assert.Equal(0.0, R.Negative.Node.Voltage.Imaginary, 4);
+            Assert.Equal(6.0, R.Positive.Current, 4);
+            Assert.Equal(-6.0, R.Negative.Current, 4);
 
-            Assert.Equal(6.0, R.Positive.Current.Real, 4);
-            Assert.Equal(-6.0, R.Negative.Current.Real, 4);
+            Assert.Equal(-6.0, V.Positive.Current, 4);
+            Assert.Equal(6.0, V.Negative.Current, 4);
 
-            Assert.Equal(0.0, R.Positive.Current.Imaginary, 4);
-            Assert.Equal(0.0, R.Negative.Current.Imaginary, 4);
-
-            Assert.Equal(-6.0, V.Positive.Current.Real, 4);
-            Assert.Equal(6.0, V.Negative.Current.Real, 4);
-
-            Assert.Equal(0.0, V.Positive.Current.Imaginary, 4);
-            Assert.Equal(0.0, V.Negative.Current.Imaginary, 4);
-
-            Assert.All(((IComponent)circuit).Equations.Select(equation => equation()), result => Assert.Equal(0.0, result.Magnitude, 4));
+            Assert.All(((IComponent)circuit).Equations.Select(equation => equation()), result => Assert.Equal(0.0, result, 4));
 
         }
     }

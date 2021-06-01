@@ -24,7 +24,7 @@ namespace Pamola
         /// <summary>
         /// A collection of appropriate equations relative to the nature of this component.
         /// </summary>
-        IReadOnlyCollection<Func<Complex>> Equations { get; }
+        IReadOnlyCollection<Func<double>> Equations { get; }
 
     }
 }

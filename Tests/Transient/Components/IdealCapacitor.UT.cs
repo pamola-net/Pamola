@@ -13,29 +13,29 @@ namespace Pamola.Transient.UT.Components
         {
             new object[]
             {
-                new Complex(13.0,5.0),
-                new Complex(-2.0,2.0),
-                new Complex(0.0,4.0),
-                new Complex(15.0,-1.0)
+                13.0,
+                -2.0,
+                0.0,
+                15.0
             },
             new object[]
             {
-                new Complex(2.0,-2.0),
-                new Complex(-2.0,2.0),
-                new Complex(0.0,0.0),
-                new Complex(4.0,-4.0)
+                2.0,
+                -2.0,
+                0.0,
+                4.0
             },
             new object[] {
-                new Complex(2.0,2.0),
-                new Complex(-1.0,2.0),
-                new Complex(4.0,-3.0),
-                new Complex(-1.0,3.0)
+                2.0,
+                -1.0,
+                4.0,
+                -1.0,
             },
             new object[] {
-                new Complex(-2.5,2.0),
-                new Complex(-2.5,2.0),
-                new Complex(-2.5,2.0),
-                new Complex(2.5,-2.0)
+                -2.5,
+                -2.5,
+                -2.5,
+                2.5
             }
         };
 
@@ -44,24 +44,24 @@ namespace Pamola.Transient.UT.Components
             new object[]
             {
                 1.0,
-                new Complex(-2.0,2.0),
-                new Complex(-2.0,2.0)
+                -2.0,
+                -2.0
             },
             new object[]
             {
                 1e3,
-                new Complex(-2.0,2.0),
-                new Complex(-0.002,0.002)
+                -2.0,
+                -0.002
             },
             new object[] {
                 12e-9,
-                new Complex(12.0,0.0),
-                new Complex(1.0e9,0.0)
+                12.0,
+                1.0e9
             },
             new object[] {
                 7e-6,
-                new Complex(-3.5,7),
-                new Complex(-0.5e6,1e6)
+                -3.5,
+                -0.5e6
             }
         };
 
@@ -69,10 +69,10 @@ namespace Pamola.Transient.UT.Components
         [Theory]
         [MemberData(nameof(chargeData))]
         public void CapacitorReturnsCharge(
-            Complex v1,
-            Complex v2,
-            Complex vc,
-            Complex chargeBalance)
+            double v1,
+            double v2,
+            double vc,
+            double chargeBalance)
         {
             var capacitor = new IdealCapacitor(10.0);
             var resistor = new Pamola.Components.IdealResistor(10e9);
@@ -91,8 +91,8 @@ namespace Pamola.Transient.UT.Components
         [MemberData(nameof(equationData))]
         public void CapacitorEquationReturnsValue(
             double c,
-            Complex ic,
-            Complex capacitorEquationValue)
+            double ic,
+            double capacitorEquationValue)
         {
             var capacitor = new IdealCapacitor(c);
             var resistor = new Pamola.Components.IdealResistor(10e9);

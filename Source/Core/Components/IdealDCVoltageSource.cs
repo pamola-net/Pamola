@@ -15,19 +15,17 @@ namespace Pamola.Components
             Voltage = voltage;
         }
 
-        private Complex VoltageDrop()
+        private double VoltageDrop()
         {
-            if (!Positive.IsConnected() || !Negative.IsConnected()) return new Complex();
-
-            var V = Positive.Node.Voltage - Negative.Node.Voltage;
-
-            return V - Voltage;
+            return (!Positive.IsConnected() || !Negative.IsConnected()) ?
+                0.0 :
+                Positive.Node.Voltage - Negative.Node.Voltage - Voltage;
 
         }
 
         protected override IReadOnlyCollection<Variable> Variables => new List<Variable>();
 
-        protected override IReadOnlyCollection<Func<Complex>> DipoleEquations => new List<Func<Complex>>() { VoltageDrop };
+        protected override IReadOnlyCollection<Func<double>> DipoleEquations => new List<Func<double>>() { VoltageDrop };
 
     }
 }

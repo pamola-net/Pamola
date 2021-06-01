@@ -10,9 +10,9 @@ namespace Pamola.Transient
     {
         public double Time { get; set; }
 
-        public IReadOnlyList<Complex> State { get; set; }
+        public IReadOnlyList<double> State { get; set; }
 
-        public TransientState(double time, IReadOnlyList<Complex> state)
+        public TransientState(double time, IReadOnlyList<double> state)
         {
             Time = time;
             State = state;
