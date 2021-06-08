@@ -16,12 +16,11 @@ namespace Pamola.Components
         /// </summary>
         /// <returns>When both terminals are connected, and the nodes created, the voltage
         /// drop in a jumper is zero.</returns>
-        private Complex JumperBehavior()
-        {
-            if (!Positive.IsConnected() || !Negative.IsConnected()) return new Complex();
-
-            return Positive.Node.Voltage - Negative.Node.Voltage;
-        }
+        private double JumperBehavior() =>
+            (!Positive.IsConnected() || !Negative.IsConnected()) ? 
+            default(double) : 
+            Positive.Node.Voltage - Negative.Node.Voltage;
+        
 
         /// <summary>
         /// Implements <see cref="Element.Variables"/>.
@@ -34,7 +33,7 @@ namespace Pamola.Components
         /// Implements <see cref="Dipole.DipoleEquations"/>.
         /// </summary>
         /// <returns>A list containing <see cref="JumperBehavior"/>.</returns>
-        protected override IReadOnlyCollection<Func<Complex>> DipoleEquations => 
-            new List<Func<Complex>>() {JumperBehavior};
+        protected override IReadOnlyCollection<Func<double>> DipoleEquations => 
+            new List<Func<double>>() {JumperBehavior};
     }
 }

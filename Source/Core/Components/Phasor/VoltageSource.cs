@@ -10,7 +10,7 @@ namespace Pamola.Components.Phasors
         /// Frequency domain voltage.
         /// </summary>
         /// <value><see cref="Complex.Magnitude"/> is the peak value.</value>
-        public Complex Voltage { get; private set; }
+        public double Voltage { get; private set; }
 
         //TODO: Lacks constructors
         //TODO: Implement extensions to phasors.
@@ -19,15 +19,10 @@ namespace Pamola.Components.Phasors
         /// The voltage drop accross <see cref="VoltageSource"/> must be equal to <see cref="Voltage"/>.
         /// </summary>
         /// <returns></returns>
-        private Complex VoltageDrop()
-        {
-            if (!Positive.IsConnected() || !Negative.IsConnected()) return new Complex();
-
-            var V = Positive.Node.Voltage - Negative.Node.Voltage;
-
-            return V - Voltage;
-
-        }
+        private double VoltageDrop() => 
+            (!Positive.IsConnected() || !Negative.IsConnected()) ? 
+            default(double) : 
+            Positive.Node.Voltage - Negative.Node.Voltage - Voltage;
 
         /// <summary>
         /// <see cref="VoltageSource"/> has no variables.
@@ -40,7 +35,7 @@ namespace Pamola.Components.Phasors
         /// Applies <see cref="Voltage"/> to its connected nodes.
         /// </summary>
         /// <returns><see cref="VoltageDrop"/>.</returns>
-        protected override IReadOnlyCollection<Func<Complex>> DipoleEquations => new List<Func<Complex>>() { VoltageDrop };
+        protected override IReadOnlyCollection<Func<double>> DipoleEquations => new List<Func<double>>() { VoltageDrop };
 
     }    
 }

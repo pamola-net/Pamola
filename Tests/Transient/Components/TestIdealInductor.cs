@@ -13,15 +13,15 @@ namespace Pamola.Transient.UT.Components
         public static IEnumerable<object[]> chargeData { get; } = new List<object[]>()
         {
             new object[] {
-                new Complex(10.0, 0.0),
-                new Complex(10.0, 0.0),
-                new Complex(0.0, 0.0) 
+                10.0,
+                10.0,
+                0.0, 
             },
             new object[]
             {
-                new Complex(10.0, 0.0),
-                new Complex(0.0, -10.0),
-                new Complex(10.0, 10.0)
+                10.0,
+                0.0,
+                10.0
             }
         }; 
 
@@ -29,22 +29,22 @@ namespace Pamola.Transient.UT.Components
         {
             new object[]
             {
-                new Complex(10.0, 0.0),
-                new Complex(200.0, 0.0)
+                10.0,
+                200.0
             },
             new object[]
             {
-                new Complex(0.0, -10.0),
-                new Complex(0.0, -200.0)
+                -10.0,
+                -200.0
             }
         };
 
         [Theory]
         [MemberData(nameof(chargeData))]
         public void TestInductorCharge(
-            Complex ip, 
-            Complex iL, 
-            Complex chargeBalance)
+            double ip, 
+            double iL, 
+            double chargeBalance)
         {
             var L = new IdealInductor(0.05);
             
@@ -60,14 +60,14 @@ namespace Pamola.Transient.UT.Components
         [Theory]
         [MemberData(nameof(equationData))]
         public void TestInductorEquation(
-            Complex vl,
-            Complex inductorEquationValue
+            double vl,
+            double inductorEquationValue
         )
         {
             var L = BuildRLCircuit();
 
             ((IComponent)L.Positive.Node).Variables.First().Setter(vl); 
-            ((IComponent)L.Negative.Node).Variables.First().Setter(new Complex(0.0, 0.0));   
+            ((IComponent)L.Negative.Node).Variables.First().Setter(default(double));   
 
             var equation = ((ITransientComponent)L).TransientVariables.First().Equation;
 
@@ -89,13 +89,11 @@ namespace Pamola.Transient.UT.Components
                     .ToList()),
                 new LinearInterpolator());
 
-            Assert.InRange(transientResponse(1*tau).GetTransientVariables().First().Variable.Getter().Real, 0.63, 0.64);
-            Assert.InRange(transientResponse(2*tau).GetTransientVariables().First().Variable.Getter().Real, 0.86, 0.87);
-            Assert.InRange(transientResponse(3*tau).GetTransientVariables().First().Variable.Getter().Real, 0.95, 0.96);
-            Assert.InRange(transientResponse(4*tau).GetTransientVariables().First().Variable.Getter().Real, 0.98, 0.99);
-            Assert.InRange(transientResponse(5*tau).GetTransientVariables().First().Variable.Getter().Real, 0.99, 1.00);
-
-            Assert.InRange(transientResponse(5*tau).GetTransientVariables().First().Variable.Getter().Imaginary, 0.00, 0.01);
+            Assert.InRange(transientResponse(1*tau).GetTransientVariables().First().Variable.Getter(), 0.63, 0.64);
+            Assert.InRange(transientResponse(2*tau).GetTransientVariables().First().Variable.Getter(), 0.86, 0.87);
+            Assert.InRange(transientResponse(3*tau).GetTransientVariables().First().Variable.Getter(), 0.95, 0.96);
+            Assert.InRange(transientResponse(4*tau).GetTransientVariables().First().Variable.Getter(), 0.98, 0.99);
+            Assert.InRange(transientResponse(5*tau).GetTransientVariables().First().Variable.Getter(), 0.99, 1.00);
         }
 
         private IdealInductor BuildRLCircuit(double inductance = 0.05)

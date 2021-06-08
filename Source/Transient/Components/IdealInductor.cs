@@ -17,10 +17,10 @@ namespace Pamola.Transient
 
         /// <summary>
         /// The induction's charge is the current flowing through its, 
-        /// stored as a <see cref="Complex"/>.
+        /// stored as a <see cref="double"/>.
         /// </summary>
-        /// <value><see cref="Complex"/>.</value>
-        public Complex Charge {get; set; }
+        /// <value></value>
+        public double Charge {get; set; }
 
 
         /// <summary>
@@ -40,8 +40,8 @@ namespace Pamola.Transient
         /// Overrides <see cref="TransientDipole.DipoleEquations"/> with a new list, 
         /// containg the <see cref="ChargingEquation"/>
         /// </summary>
-        /// <returns>A read-only collection of functions of <see cref="Complex"/>.</returns>
-        protected override IReadOnlyCollection<Func<Complex>> DipoleEquations => new List<Func<Complex>>() { ChargingEquation };
+        /// <returns>A read-only collection of functions of <see cref="double"/>.</returns>
+        protected override IReadOnlyCollection<Func<double>> DipoleEquations => new List<Func<double>>() { ChargingEquation };
 
         /// <summary>
         /// Overrides <see cref="TransientDipole.TransientVariables"/>, with a list containg the <see cref="InductorEquation"/>.
@@ -61,25 +61,15 @@ namespace Pamola.Transient
         /// It's the value of the derivative of the current flowing in the inductor.
         /// </summary>
         /// <returns>The voltage divided by the <see cref="Inductance"/>.</returns>
-        private Complex InductorEquation()
-        {
-            var V = Positive.Node.Voltage - Negative.Node.Voltage;
-            var L = Inductance;
-
-            return V / L;
-        }
-
+        private double InductorEquation() => 
+            (Positive.Node.Voltage - Negative.Node.Voltage) / Inductance;
+        
         /// <summary>
         /// Represents the acutal derivative of the current flowing through the <see cref="IdealInductor"/>.
         /// </summary>
         /// <returns>The different between the current flowing in the <see cref="IdealInductor"/>,
         /// and its actual <see cref="Charge"/>.</returns>
-        private Complex ChargingEquation()
-        {
-            Complex I = Positive.Current;
-
-            return I - Charge;
-        }
+        private double ChargingEquation() => Positive.Current - Charge;
 
     }
 }

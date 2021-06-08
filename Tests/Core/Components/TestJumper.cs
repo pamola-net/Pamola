@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Pamola.Components;
 using Pamola.Solvers;
 using Pamola.Solvers.UT.Components;
+using System;
 
 namespace Pamola.UT.Components
 {
@@ -21,8 +22,8 @@ namespace Pamola.UT.Components
             Assert.Equal(2, C.Terminals.Count);
 
             Assert.Equal(2, C.Components.Where(c => c.GetType() == typeof(Node)).ToList().Count);
-            Assert.Equal(0.0, J.Positive.Node.Voltage.Magnitude, 4);
-            Assert.Equal(0.0, J.Positive.Current.Magnitude, 4);
+            Assert.Equal(0.0, Math.Abs(J.Positive.Node.Voltage), 4);
+            Assert.Equal(0.0, Math.Abs(J.Positive.Current), 4);
         }
 
         [Fact]
@@ -39,10 +40,10 @@ namespace Pamola.UT.Components
             C.Solve(new AccordBaseSolver(((IComponent)C).Variables.Select(v => v.Getter()).ToList()));
 
             Assert.Equal(3, C.Components.Where(c => c.GetType() == typeof(Node)).ToList().Count);
-            Assert.Equal(0.0, J.Positive.Node.Voltage.Magnitude, 4);
-            Assert.Equal(0.0, J.Negative.Node.Voltage.Magnitude, 4);
-            Assert.Equal(6.0, J.Negative.Current.Magnitude, 4);
-            Assert.Equal(12.0, R.Positive.Node.Voltage.Magnitude, 4);
+            Assert.Equal(0.0, Math.Abs(J.Positive.Node.Voltage), 4);
+            Assert.Equal(0.0, Math.Abs(J.Negative.Node.Voltage), 4);
+            Assert.Equal(6.0, Math.Abs(J.Negative.Current), 4);
+            Assert.Equal(12.0, Math.Abs(R.Positive.Node.Voltage), 4);
         }
 
         [Fact]
@@ -63,14 +64,10 @@ namespace Pamola.UT.Components
             C.Solve(new AccordBaseSolver(((IComponent)C).Variables.Select(v => v.Getter()).ToList()));
 
             Assert.Equal(3, C.Components.Where(c => c.GetType() == typeof(Node)).ToList().Count);
-            Assert.NotEqual(12.0, R.Positive.Node.Voltage.Real, 4);
-            Assert.Equal(0.0, R.Positive.Node.Voltage.Imaginary, 4);
-            Assert.NotEqual(0.0, J.Negative.Node.Voltage.Real, 4);
-            Assert.Equal(0.0, J.Negative.Node.Voltage.Imaginary, 4);
-            Assert.NotEqual(6.0, R.Positive.Current.Real, 4);
-            Assert.Equal(0.0, R.Positive.Current.Imaginary, 4);
-            Assert.NotEqual(0.0, closedCircuit.Positive.Current.Real, 4);
-            Assert.Equal(0.0, closedCircuit.Positive.Current.Imaginary, 4);
+            Assert.NotEqual(12.0, R.Positive.Node.Voltage, 4);
+            Assert.NotEqual(0.0, J.Negative.Node.Voltage, 4);
+            Assert.NotEqual(6.0, R.Positive.Current, 4);
+            Assert.NotEqual(0.0, closedCircuit.Positive.Current, 4);
         }
 
         private List<IComponent> SampleCircuit()
