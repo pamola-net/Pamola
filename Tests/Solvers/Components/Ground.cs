@@ -15,11 +15,11 @@ namespace Pamola.Solvers.UT.Components
 
         protected override IReadOnlyCollection<Variable> Variables => new List<Variable>();
 
-        protected override IReadOnlyCollection<Func<Complex>> Equations => new List<Func<Complex>>() { TerminalVoltageIsZero };
+        protected override IReadOnlyCollection<Func<double>> Equations => new List<Func<double>>() { TerminalVoltageIsZero };
 
-        private Complex TerminalVoltageIsZero()
+        private double TerminalVoltageIsZero()
         {
-            return Terminal.Node?.Voltage ?? new Complex();
+            return Terminal.Node?.Voltage ?? 0.0;
         }
     }
 }

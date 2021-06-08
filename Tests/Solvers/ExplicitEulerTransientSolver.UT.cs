@@ -14,9 +14,6 @@ namespace Pamola.Solvers.UT
         [Fact]
         public void SolveExplicitEuler()
         {
-            // dx/dt = 1/x
-            // x(t) = sqrt(2*t+1) quando x(0) = 1
-
             var theoreticalResult = Enumerable.Range(0, 10)
                 .Select(i => 0.01 * i)
                 .Select(t => Math.Sqrt(2 * t + 1));
@@ -24,15 +21,15 @@ namespace Pamola.Solvers.UT
             var x0 = new TransientState()
             {
                 State = new[] {
-                    new Complex(1, 0.0)
+                    1.0
                 },
                 Time = 0
             };
             var x = 1 / x0.State.First();
 
-            Complex derivative() => 1 / x;
+            double derivative() => 1 / x;
 
-            var derivatives = new List<Func<Complex>>()
+            var derivatives = new List<Func<double>>()
             {
                 derivative
             };
@@ -50,19 +47,12 @@ namespace Pamola.Solvers.UT
                 }
             ).Take(10);
 
-            var errorsReal = results.Zip(theoreticalResult,
+            var errors = results.Zip(theoreticalResult,
                 (s, t) => (s.State.First() - t)/t)
-                .Select(e => Math.Abs(e.Real))
-                .Average(); // RME
+                .Select(e => Math.Abs(e))
+                .Average(); 
             
-            var errorsImag = results.Zip(theoreticalResult,
-                (s, t) => (s.State.First() - t)/t)
-                .Select(e => Math.Abs(e.Imaginary))
-                .Average();
-            
-            Assert.InRange(errorsReal, 0, 0.005);
-            Assert.InRange(errorsImag, 0, 0.00000000001);
-
+            Assert.InRange(errors, 0, 0.005);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Pamola.Transient.UT.Mocks
 {
     class MockedTransientElement : TransientElement
     {
-        public Complex MockedProperty { get; set; }
+        public double MockedProperty { get; set; }
 
         public MockedTransientElement(int numberOfTerminals) : base(numberOfTerminals)
         {
@@ -17,7 +17,7 @@ namespace Pamola.Transient.UT.Mocks
 
         protected override IReadOnlyCollection<Variable> Variables => throw new NotImplementedException();
 
-        protected override IReadOnlyCollection<Func<Complex>> Equations => throw new NotImplementedException();
+        protected override IReadOnlyCollection<Func<double>> Equations => throw new NotImplementedException();
 
         protected override IReadOnlyCollection<TransientVariable> TransientVariables =>
             new List<TransientVariable>() 

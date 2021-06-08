@@ -21,20 +21,16 @@ namespace Pamola.Components
             Resistance = resistance; 
         }
 
-        private Complex OhmsLaw()
-        {
-            if (!Positive.IsConnected() || !Negative.IsConnected()) return new Complex();
+        private double OhmsLaw() =>
+            (!Positive.IsConnected() || !Negative.IsConnected()) ? 
+            0.0 : 
+            Positive.Node.Voltage - Negative.Node.Voltage - (Resistance * Positive.Current);
 
-            var V = Positive.Node.Voltage - Negative.Node.Voltage;
-            var I = Positive.Current;
-            var R = Resistance;
-
-            return V - R * I;
-        }   
+           
 
         protected override IReadOnlyCollection<Variable> Variables => new List<Variable>();
 
-        protected override IReadOnlyCollection<Func<Complex>> DipoleEquations => new List<Func<Complex>>() { OhmsLaw };
+        protected override IReadOnlyCollection<Func<double>> DipoleEquations => new List<Func<double>>() { OhmsLaw };
         
     }
 }

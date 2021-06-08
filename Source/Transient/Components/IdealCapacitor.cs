@@ -10,7 +10,7 @@ namespace Pamola.Transient
     {
         public double Capacitance { get; set; }
 
-        public Complex Charge { get; set; }
+        public double Charge { get; set; }
 
         public IdealCapacitor(double capacitance)
         {
@@ -21,26 +21,18 @@ namespace Pamola.Transient
             };
         }
 
-        protected override IReadOnlyCollection<Func<Complex>> DipoleEquations => new List<Func<Complex>>() { ChargingEquation };
+        protected override IReadOnlyCollection<Func<double>> DipoleEquations => new List<Func<double>>() { ChargingEquation };
 
         protected override IReadOnlyCollection<TransientVariable> TransientVariables { get; }
 
         protected override IReadOnlyCollection<Variable> Variables => new List<Variable>();
 
-        private Complex CapacitorEquation()
-        {
-            var I = Positive.Current;
-            var C = Capacitance;
-
-            return I / C;
-        }
-
-        private Complex ChargingEquation()
-        {
-            Complex V = Positive.Node.Voltage - Negative.Node.Voltage;
-
-            return V - Charge;
-        }
+        private double CapacitorEquation() => 
+            Positive.Current / Capacitance;
+        
+        private double ChargingEquation() => 
+            Positive.Node.Voltage - Negative.Node.Voltage - Charge;
+        
         
     }
 }

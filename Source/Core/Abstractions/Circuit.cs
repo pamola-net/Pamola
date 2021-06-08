@@ -20,6 +20,6 @@ namespace Pamola
         
         protected override IReadOnlyCollection<Variable> Variables => Components.SelectMany(component => component.Variables).ToList();
 
-        protected override IReadOnlyCollection<Func<Complex>> Equations => Components.SelectMany(component => component.Equations).ToList();
+        protected override IReadOnlyCollection<Func<double>> Equations => Components.SelectMany(component => component.Equations).ToList();
     }
 }

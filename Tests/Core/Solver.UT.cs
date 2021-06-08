@@ -21,26 +21,26 @@ namespace Pamola.UT
 
             var values = new[]
             {
-                new Complex(6.0,0),
-                new Complex(12.0,0),
-                new Complex(-6.0,0),
-                new Complex(6.0,0),
-                new Complex(0.0,0.0),
-                new Complex(-6.0,0)
+                6.0,
+                12.0,
+                -6.0,
+                6.0,
+                0.0,
+                -6.0
             }.ToList();
 
             circuit.Solve(new MockedSolver() { SolvedState = values });
 
-            Assert.Equal(new Complex(12.0, 0), R.Positive.Node.Voltage);
-            Assert.Equal(new Complex(0.0, 0), R.Negative.Node.Voltage);
+            Assert.Equal(12.0, R.Positive.Node.Voltage);
+            Assert.Equal(0.0, R.Negative.Node.Voltage);
 
-            Assert.Equal(new Complex(6, 0), R.Positive.Current);
-            Assert.Equal(new Complex(-6, 0), R.Negative.Current);
+            Assert.Equal(6.0, R.Positive.Current);
+            Assert.Equal(-6.0, R.Negative.Current);
 
-            Assert.Equal(new Complex(-6, 0), V.Positive.Current);
-            Assert.Equal(new Complex(6, 0), V.Negative.Current);
+            Assert.Equal(-6.0, V.Positive.Current);
+            Assert.Equal(6.0, V.Negative.Current);
 
-            Assert.All(((IComponent)circuit).Equations.Select(equation => equation()), result => Assert.Equal(new Complex(0, 0), result));
+            Assert.All(((IComponent)circuit).Equations.Select(equation => equation()), result => Assert.Equal(0.0, result));
         }
     }
 }

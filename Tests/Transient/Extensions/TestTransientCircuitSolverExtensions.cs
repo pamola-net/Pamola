@@ -42,7 +42,7 @@ namespace Pamola.UnitTests.Transient.Extensions
 
             var simulatedResponse = transientResponse.Select(s => s.State.First());
 
-            var norm2 = teoricResponse.Zip(simulatedResponse, (t,s) => ((t-s)*(t-s)).Real).Sum();
+            var norm2 = teoricResponse.Zip(simulatedResponse, (t,s) => ((t-s)*(t-s))).Sum();
 
             var serialiedSimulation = JsonSerializer.Serialize(simulatedResponse);
             var serialiedTeoretic = JsonSerializer.Serialize(teoricResponse);
@@ -62,11 +62,11 @@ namespace Pamola.UnitTests.Transient.Extensions
 
             var tau = 0.47;
 
-            Assert.InRange(transientResponse(1*tau).GetTransientVariables().First().Variable.Getter().Real, 6.3, 6.4);
-            Assert.InRange(transientResponse(2*tau).GetTransientVariables().First().Variable.Getter().Real, 8.6, 8.7);
-            Assert.InRange(transientResponse(3*tau).GetTransientVariables().First().Variable.Getter().Real, 9.5, 9.6);
-            Assert.InRange(transientResponse(4*tau).GetTransientVariables().First().Variable.Getter().Real, 9.8, 9.9);
-            Assert.InRange(transientResponse(5*tau).GetTransientVariables().First().Variable.Getter().Real, 9.9, 10.0);
+            Assert.InRange(transientResponse(1*tau).GetTransientVariables().First().Variable.Getter(), 6.3, 6.4);
+            Assert.InRange(transientResponse(2*tau).GetTransientVariables().First().Variable.Getter(), 8.6, 8.7);
+            Assert.InRange(transientResponse(3*tau).GetTransientVariables().First().Variable.Getter(), 9.5, 9.6);
+            Assert.InRange(transientResponse(4*tau).GetTransientVariables().First().Variable.Getter(), 9.8, 9.9);
+            Assert.InRange(transientResponse(5*tau).GetTransientVariables().First().Variable.Getter(), 9.9, 10.0);
         }
 
         private Circuit GetSimpleTransientCircuit()

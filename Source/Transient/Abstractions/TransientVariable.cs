@@ -10,9 +10,9 @@ namespace Pamola.Transient
     {
         public Variable Variable { get; }
     
-        public Func<Complex> Equation { get; }
+        public Func<double> Equation { get; }
 
-        public TransientVariable(Variable variable, Func<Complex> equation)
+        public TransientVariable(Variable variable, Func<double> equation)
         {
             Variable = variable;
             Equation = equation;

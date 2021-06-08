@@ -8,10 +8,10 @@ namespace Pamola.Solvers
 {
     public static class NumericExtensions
     {
-        public static Complex Derivative(
-            this Func<Complex, Complex> func, 
-            Complex value, 
-            Complex tolerance)
+        public static double Derivative(
+            this Func<double, double> func, 
+            double value, 
+            double tolerance)
         {
             var f1 = func(value + tolerance/2.0);
             var f2 = func(value - tolerance/2.0);
@@ -19,30 +19,30 @@ namespace Pamola.Solvers
             return (f1 - f2) / tolerance;
         }
 
-        public static Complex Derivative(this Func<Complex, Complex> func, Complex value) => 
-            func.Derivative(value, new Complex(1e-8, 1e-8));
+        public static Complex Derivative(this Func<double, double> func, double value) => 
+            func.Derivative(value, 1e-8);
 
-        public static IReadOnlyList<Complex> Gradient(
-            this Func<IReadOnlyList<Complex>, Complex> func,
-            IReadOnlyList<Complex> values,
-            Complex tolerance) =>
+        public static IReadOnlyList<double> Gradient(
+            this Func<IReadOnlyList<double>, double> func,
+            IReadOnlyList<double> values,
+            double tolerance) =>
             values.
-                Select<Complex, Func<Complex, Complex>>((value, i) => (Complex x) => func(values.Select((currentX, j) => j == i ? x : currentX).ToList())).
+                Select<double, Func<double, double>>((value, i) => (double x) => func(values.Select((currentX, j) => j == i ? x : currentX).ToList())).
                 Select((f, i) => f.Derivative(values[i], tolerance)).ToList();
         
 
-        public static IReadOnlyList<Complex> Gradient(this Func<IReadOnlyList<Complex>, Complex> func, IReadOnlyList<Complex> values) => 
-            func.Gradient(values, new Complex(1e-8, 1e-8));
+        public static IReadOnlyList<double> Gradient(this Func<IReadOnlyList<double>, double> func, IReadOnlyList<double> values) => 
+            func.Gradient(values, 1e-8);
 
-        public static IReadOnlyList<IReadOnlyList<Complex>> Jacobian(
-            this IReadOnlyList<Func<IReadOnlyList<Complex>, Complex>> funcs, 
-            IReadOnlyList<Complex> values, 
-            Complex tolerance) => 
+        public static IReadOnlyList<IReadOnlyList<double>> Jacobian(
+            this IReadOnlyList<Func<IReadOnlyList<double>, double>> funcs, 
+            IReadOnlyList<double> values, 
+            double tolerance) => 
             funcs.
                 Select(f => f.Gradient(values, tolerance)).ToList();
         
 
-        public static IReadOnlyList<IReadOnlyList<Complex>> Jacobian(this IReadOnlyList<Func<IReadOnlyList<Complex>, Complex>> funcs, IReadOnlyList<Complex> values) => 
-            funcs.Jacobian(values, new Complex(1e-8, 1e-8));
+        public static IReadOnlyList<IReadOnlyList<double>> Jacobian(this IReadOnlyList<Func<IReadOnlyList<double>, double>> funcs, IReadOnlyList<double> values) => 
+            funcs.Jacobian(values, 1e-8);
     }
 }

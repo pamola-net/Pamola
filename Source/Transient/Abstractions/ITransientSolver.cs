@@ -18,9 +18,9 @@ namespace Pamola.Transient
         /// <param name="solveSystem">Solves the circuit state for non-transient variables.</param>
         IEnumerable<TransientState> Solve(
             TransientState initialState,
-            IReadOnlyList<Func<Complex>> derivatives,
+            IReadOnlyList<Func<double>> derivatives,
             TimeProvider timeProvider,
-            Action<IReadOnlyList<Complex>> solveSystem
+            Action<IReadOnlyList<double>> solveSystem
         );
     }
 

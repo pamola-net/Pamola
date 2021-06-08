@@ -14,30 +14,26 @@ namespace Pamola.UT
         {
             new object[] 
             {
-                new Complex(2.0,2.0),
-                new Complex(-2.0,2.0), 
-                new Complex(0.0,4.0)
+                2.0,
+                2.0, 
+                4.0
             },
             new object[] 
             {
-                new Complex(2.0,2.0),
-                new Complex(-2.0,-2.0), 
-                new Complex(0.0,0.0)
+                2.0,
+                -2.0, 
+                0.0
             },
             new object[] {
-                new Complex(2.0,2.0),
-                new Complex(2.0,2.0),
-                new Complex(4.0,4.0)},
-            new object[] {
-                new Complex(-2.0,-2.0),
-                new Complex(-2.0,-2.0),
-                new Complex(-4.0,-4.0)
+                -1.0,
+                -1.0,
+                -2.0
             }
         };
 
         [Theory]
         [MemberData(nameof(ValueData))]
-        public void DipoleCurrentsBehaveProperly(Complex positiveCurrent, Complex negativeCurrent, Complex currentSum)
+        public void DipoleCurrentsBehaveProperly(double positiveCurrent, double negativeCurrent, double currentSum)
         {
             var dipole = new MockedDipole();
             
