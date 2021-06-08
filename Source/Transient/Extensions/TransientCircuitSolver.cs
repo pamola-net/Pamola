@@ -58,7 +58,6 @@ namespace Pamola.Transient
                         }).ToList();
                     circuit.Solve(stateSolver);
                 });
-
         }    
 
 

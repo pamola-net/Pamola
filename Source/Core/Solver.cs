@@ -26,12 +26,10 @@ namespace Pamola
             }
 
             var solvedState = solver.Solve(
-                equations.Select(equation => new Func<IReadOnlyList<double>, double>(
-                    values =>
-                    {
-                        SetState(values);
-                        return equation();
-                    })).ToList());
+                x => {
+                    SetState(x);
+                    return equations.Select(y => y()).ToList();}
+            );
 
             SetState(solvedState);
 

@@ -10,7 +10,7 @@ namespace Pamola.UT
     {
         public IReadOnlyList<double> SolvedState { get; set; }
 
-        public IReadOnlyList<double> Solve(IReadOnlyList<Func<IReadOnlyList<double>, double>> equations)
+        public IReadOnlyList<double> Solve(Func<IReadOnlyList<double>, IReadOnlyList<double>> equations)
         {
             return SolvedState;
         }

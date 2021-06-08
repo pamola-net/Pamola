@@ -44,5 +44,36 @@ namespace Pamola.Solvers
 
         public static IReadOnlyList<IReadOnlyList<double>> Jacobian(this IReadOnlyList<Func<IReadOnlyList<double>, double>> funcs, IReadOnlyList<double> values) => 
             funcs.Jacobian(values, 1e-8);
+
+        public static IReadOnlyList<double> Derivatives(
+            this Func<IReadOnlyList<double>, IReadOnlyList<double>> funcs, 
+            IReadOnlyList<double> x,
+            int position,
+            double tolerance
+        )
+        {
+            var x_north = x.Select((v, i) => i == position ? v + (tolerance / 2.0) : v).ToList();
+            var x_south = x.Select((v, i) => i == position ? v - (tolerance / 2.0) : v).ToList();
+            var y_north = funcs(x_north);
+            var y_south = funcs(x_south);
+            
+            return y_north.Zip(y_south, (yn, ys) => (yn-ys)/ tolerance).ToList();
+        }
+
+        public static IReadOnlyList<IReadOnlyList<double>> Jacobian(
+            this Func<IReadOnlyList<double>, IReadOnlyList<double>> funcs,
+            IReadOnlyList<double> values,
+            double tolerance) =>
+            values.Select((v, i) => funcs.Derivatives(values, i, tolerance)).ToList().Transpose();
+
+        public static IReadOnlyList<IReadOnlyList<double>> Transpose(
+            this IReadOnlyList<IReadOnlyList<double>> matrix) => 
+            matrix.Select(
+                (l, i) => 
+                    l.Select((l, j) 
+                        => matrix[j][i])
+                    .ToList())
+                .ToList();
+        
     }
 }

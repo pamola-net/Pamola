@@ -22,15 +22,15 @@ namespace Pamola.Solvers
         public IReadOnlyList<double> InitialGuess { get; set; }
 
 
-        public IReadOnlyList<double> Solve(IReadOnlyList<Func<IReadOnlyList<double>, double>> equations)
+        public IReadOnlyList<double> Solve(Func<IReadOnlyList<double>, IReadOnlyList<double>> equations)
         {
             return IterativeSolve(equations).
                 Select((Xk, k) => (Xk, k)).
-                First(itk => StopCriteria(equations.Select(equation => equation(itk.Xk)).ToList(), itk.k)).
-                Xk;
+                First(itk => StopCriteria(equations(itk.Xk).ToList(), itk.k))
+                .Xk;
         }
 
-        private IEnumerable<IReadOnlyList<double>> IterativeSolve(IReadOnlyList<Func<IReadOnlyList<double>, double>> funcs)
+        private IEnumerable<IReadOnlyList<double>> IterativeSolve(Func<IReadOnlyList<double>, IReadOnlyList<double>> funcs)
         {
             var Xk = InitialGuess.ToArray();
 
@@ -39,7 +39,7 @@ namespace Pamola.Solvers
                 yield return Xk;
 
                 var J = funcs.Jacobian(Xk, Tolerance).Select(j => j.ToArray()).ToArray();
-                var F = funcs.Select(func => func(Xk)).ToArray();
+                var F = funcs(Xk).ToArray();
 
                 var deltaX = Matrix.Solve(J, F, true);
 

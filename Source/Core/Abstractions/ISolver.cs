@@ -7,6 +7,6 @@ namespace Pamola
 {
     public interface ISolver
     {
-        IReadOnlyList<double> Solve(IReadOnlyList<Func<IReadOnlyList<double>, double>> equations);
+        IReadOnlyList<double> Solve(Func<IReadOnlyList<double>, IReadOnlyList<double>> equations);
     }
 }
