@@ -60,7 +60,7 @@ namespace Pamola.UT
         {
             var terminal = new MockedElement(1).Terminals.First();
             IComponent component = terminal;
-            var current = new System.Numerics.Complex(3.0, 4.0);
+            var current = 3.0;
 
             component.Variables.First().Setter(current);
 

@@ -12,6 +12,6 @@ namespace Pamola.UT
     {
         protected override IReadOnlyCollection<Variable> Variables => new List<Variable>();
 
-        protected override IReadOnlyCollection<Func<Complex>> DipoleEquations => new List<Func<Complex>>();
+        protected override IReadOnlyCollection<Func<double>> DipoleEquations => new List<Func<double>>();
     }
 }

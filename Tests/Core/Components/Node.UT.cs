@@ -32,7 +32,7 @@ namespace Pamola.UT
         {
             var node = new MockedElement(2).Terminals.ConnectAll();
             IComponent component = node;
-            var voltage = new System.Numerics.Complex(3.0, 4.0);
+            var voltage = 3.0;
 
             component.Variables.First().Setter(voltage);
 
@@ -40,14 +40,14 @@ namespace Pamola.UT
         }
 
         [Fact]
-        public void NodeObeysKirchhofsCurrentLaw()
+        public void NodeObeysKirchhoffsCurrentLaw()
         {
             var node = new MockedElement(3).Terminals.ConnectAll();
 
-            node.Terminals.Cast<IComponent>().SelectMany(t => t.Variables).ToList().ForEach(t => t.Setter(new System.Numerics.Complex(1.0, -1.0)));
+            node.Terminals.Cast<IComponent>().SelectMany(t => t.Variables).ToList().ForEach(t => t.Setter(1.0));
             var equation = ((IComponent)node).Equations.First();
 
-            Assert.Equal(new Complex(3.0, -3.0), equation());
+            Assert.Equal(3.0, equation());
         }
     }
 }

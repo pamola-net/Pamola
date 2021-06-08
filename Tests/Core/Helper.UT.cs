@@ -77,7 +77,7 @@ namespace Pamola.UT
             var circuit = R.GetCircuit();   
 
             var s = new[] {
-                new Complex(10.0, 0)
+                10.0
             };
 
             circuit.SetTransientVariables(s);

@@ -48,7 +48,7 @@ namespace Pamola
 
         protected abstract override IReadOnlyCollection<Variable> Variables { get; }
 
-        protected abstract override IReadOnlyCollection<Func<Complex>> Equations { get; }
+        protected abstract override IReadOnlyCollection<Func<double>> Equations { get; }
 
     }
 }

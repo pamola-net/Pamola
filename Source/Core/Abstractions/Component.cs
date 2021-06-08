@@ -25,13 +25,13 @@ namespace Pamola
         /// <summary>
         /// A collection of appropriate equations relative to the nature of this component.
         /// </summary>
-        protected virtual IReadOnlyCollection<Func<Complex>> Equations { get; } = Enumerable.Empty<Func<Complex>>().ToArray();
+        protected virtual IReadOnlyCollection<Func<double>> Equations { get; } = Enumerable.Empty<Func<double>>().ToArray();
 
         IReadOnlyCollection<IComponent> IComponent.AdjacentComponents => AdjacentComponents;
         
         IReadOnlyCollection<Variable> IComponent.Variables => Variables;
 
-        IReadOnlyCollection<Func<Complex>> IComponent.Equations => Equations;
+        IReadOnlyCollection<Func<double>> IComponent.Equations => Equations;
 
     }
 }

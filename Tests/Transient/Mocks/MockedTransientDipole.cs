@@ -14,8 +14,8 @@ namespace Pamola.Transient.UT.Mocks
 
         protected override IReadOnlyCollection<TransientVariable> TransientVariables => base.TransientVariables;
 
-        protected override IReadOnlyCollection<Func<Complex>> Equations => base.Equations;
+        protected override IReadOnlyCollection<Func<double>> Equations => base.Equations;
 
-        protected override IReadOnlyCollection<Func<Complex>> DipoleEquations => Enumerable.Empty<Func<Complex>>().ToArray();
+        protected override IReadOnlyCollection<Func<double>> DipoleEquations => Enumerable.Empty<Func<double>>().ToArray();
     }
 }

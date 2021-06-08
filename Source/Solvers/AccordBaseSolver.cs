@@ -8,21 +8,21 @@ namespace Pamola.Solvers
 {
     public class AccordBaseSolver : ISolver
     {
-        public AccordBaseSolver(IReadOnlyList<Complex> initialGuess) 
+        public AccordBaseSolver(IReadOnlyList<double> initialGuess) 
         {
             InitialGuess = initialGuess;
-            Tolerance = new Complex(1e-8, 1e-8);
-            StopCriteria = (Y, i) => i >= 100 || Y.All(y => y.Magnitude < Tolerance.Magnitude);
+            Tolerance = 1e-8;
+            StopCriteria = (Y, i) => i >= 100 || Y.All(y => y*y < Tolerance);
         }
 
-        public Complex Tolerance { get; set; }
+        public double Tolerance { get; set; }
 
-        public Func<IReadOnlyList<Complex>, int, bool> StopCriteria { get; set; }
+        public Func<IReadOnlyList<double>, int, bool> StopCriteria { get; set; }
 
-        public IReadOnlyList<Complex> InitialGuess { get; set; }
+        public IReadOnlyList<double> InitialGuess { get; set; }
 
 
-        public IReadOnlyList<Complex> Solve(IReadOnlyList<Func<IReadOnlyList<Complex>, Complex>> equations)
+        public IReadOnlyList<double> Solve(IReadOnlyList<Func<IReadOnlyList<double>, double>> equations)
         {
             return IterativeSolve(equations).
                 Select((Xk, k) => (Xk, k)).
@@ -30,7 +30,7 @@ namespace Pamola.Solvers
                 Xk;
         }
 
-        private IEnumerable<IReadOnlyList<Complex>> IterativeSolve(IReadOnlyList<Func<IReadOnlyList<Complex>, Complex>> funcs)
+        private IEnumerable<IReadOnlyList<double>> IterativeSolve(IReadOnlyList<Func<IReadOnlyList<double>, double>> funcs)
         {
             var Xk = InitialGuess.ToArray();
 
@@ -41,19 +41,9 @@ namespace Pamola.Solvers
                 var J = funcs.Jacobian(Xk, Tolerance).Select(j => j.ToArray()).ToArray();
                 var F = funcs.Select(func => func(Xk)).ToArray();
 
-                var Jreal = J.Re();
-                var Jimag = J.Im();
+                var deltaX = Matrix.Solve(J, F, true);
 
-                var Freal = F.Re();
-                var Fimag = F.Im();
-
-                var deltaXreal = Matrix.Solve(Jreal, Freal, true);
-                var deltaXimag = Matrix.Solve(Jimag, Fimag, true);
-
-                var XK1real = Xk.Re().Subtract(deltaXreal);
-                var XK1imag = Xk.Im().Subtract(deltaXimag);
-
-                Xk = XK1real.Zip(XK1imag, (real, imag) => new Complex(real, imag)).ToArray();
+                Xk = Xk.Subtract(deltaX);
             }
         }
     }

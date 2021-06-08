@@ -8,9 +8,9 @@ namespace Pamola.UT
 {
     public class MockedSolver : ISolver
     {
-        public IReadOnlyList<Complex> SolvedState { get; set; }
+        public IReadOnlyList<double> SolvedState { get; set; }
 
-        public IReadOnlyList<Complex> Solve(IReadOnlyList<Func<IReadOnlyList<Complex>, Complex>> equations)
+        public IReadOnlyList<double> Solve(IReadOnlyList<Func<IReadOnlyList<double>, double>> equations)
         {
             return SolvedState;
         }

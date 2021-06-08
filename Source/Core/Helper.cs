@@ -48,7 +48,7 @@ namespace Pamola
 
         public static void SetTransientVariables(
             this Circuit circuit, 
-            IEnumerable<Complex> stateVariables) => 
+            IEnumerable<double> stateVariables) => 
                 stateVariables.Zip(
                     circuit.GetTransientVariables(),
                     (s, v) => (State: s, TransientVariable: v)).ToList()
