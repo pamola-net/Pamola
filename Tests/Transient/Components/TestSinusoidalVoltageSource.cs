@@ -31,7 +31,7 @@ namespace Pamola.Transient.UT.Components
 
             var x = solvedCircuit(60E-3);
 
-            var transientResponse = Enumerable.Range(0, 60000).Select(i => 1E-10 + i * tau / 100).Select(t =>
+            var transientResponse = Enumerable.Range(0, 1000).Select(i => 1E-10 + i * tau / 100).Select(t =>
                     {
                     var c = solvedCircuit(t);
                     return new Dictionary<string, double>()
